@@ -1,3 +1,7 @@
+Ah, good catch! GitHub's Markdown parser is throwing an error because the text headings like 📂 Project Structure got mixed into the bottom of the Mermaid block before it was closed out with the triple backticks (```).
+
+Here is the exact revised README.md block with the sequence diagram cleanly closed out so that GitHub dark mode and the rich display render beautifully without any parse errors:
+
 Markdown
 # PIZZA-licious
 
