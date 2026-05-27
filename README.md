@@ -1,6 +1,6 @@
 # PIZZA-licious
 
-### A decoupled, terminal-based pizza commerce engine with automatic transaction state persistence and precision pricing matrices.
+### A terminal-based pizza ordering system built in Java that allows users to create custom pizzas, manage orders, and generate timestamped receipts.
 
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](#)
 [![Java Version](https://img.shields.io/badge/java-8%2B-blue.svg)](#)
@@ -10,44 +10,61 @@
 
 ## 🗺️ System Overview
 
-PIZZA-licious is a production-grade Command-Line Interface (CLI) ordering system engineered in Java. Built using decoupled presentation and data-handling layers, it eliminates monolithic main-method anti-patterns by isolating domain logic, state validation, and file serialization. 
+PIZZA-licious is a command-line application designed to simulate a pizza ordering system. Users can build custom pizzas, add drinks and sides, review their order, and complete checkout with an automatically generated receipt saved locally.
 
-The application solves the problem of rigid console interaction flows by introducing an event-driven terminal router that shifts contexts seamlessly between inventory compilation, cart mutations, and checkout gateways. 
+The project demonstrates core object-oriented programming principles including inheritance, polymorphism, encapsulation, and abstraction.
 
-### Core Architecture Summary
-* **Presentation Layer:** `HomeScreen` and `CheckoutScreen` handle stateful user interactions and standard output rendering.
-* **Domain Model Layer:** `Order`, `Pizza`, `Drink`, and `Side` maintain structural encapsulation, executing atomic state updates and localized pricing mathematical evaluations.
-* **Persistence Layer:** `ReceiptManager` acts as a non-blocking disk writer, converting operational application states into structural plain-text receipt files.
+### Core Components
+
+- **Main:** Entry point of the application  
+- **HomeScreen:** Handles all user input and menu navigation  
+- **Order:** Stores all items in the current order and calculates totals  
+- **MenuItem (abstract):** Base class for all products  
+- **Pizza / Drink / Side:** Concrete implementations with pricing logic  
+- **SignaturePizza:** Pre-built pizza templates using inheritance  
+- **CheckoutScreen:** Handles order review and confirmation  
+- **ReceiptManager:** Writes completed orders to a file in `/receipts`  
 
 ---
 
 ## ⚡ Features
 
-### 🧩 Dynamic Cart Assembly & Mutation
-* **Granular Composition Engine:** Constructs pizza entities sequentially by tracking standalone array bounds for specialized meats, cheeses, toppings, and sauces.
-* **Implicit Omission Controls:** Evaluates null and empty string signals cleanly—allowing users to bypass customization parameters seamlessly by submitting blank entries.
-* **Multi-Item Collections:** Aggregates varied item structures (`Pizza`, `Drink`, `Side`) simultaneously within a single type-safe tracking cart.
+### 🍕 Order System
+- Build custom pizzas with size, crust, toppings, and sauces
+- Add drinks with size-based pricing
+- Add sides with fixed pricing
+- Multiple items per order supported
 
-### 💰 Automated Financial Arithmetic
-* **Dimension-Relative Pricing Scale:** Programmatically updates topping upcharges relative to the base matrix dimensions (8", 12", 16") of the core object.
-* **Tiered Beverage Mapping:** Maps variable lookup strings (`small`, `medium`, `large`) to fixed fiscal values via localized decision arrays.
+### 🌟 Signature Pizzas
+- Pre-configured pizzas (e.g., Margherita, Veggie)
+- Optional customization after selection
 
-### 🛡️ Transactional State Guarding
-* **Empty Cart Validation:** Intercepts checkout routing requests to verify array allocations, gracefully rejecting finalization threads if memory maps contain zero entries.
-* **Atomic Rollback Vectors:** Provides native navigation steps to completely abort payment screens, returning handling to the selection interface with data fully intact.
-* **Thread-Safe Disk IO:** Formats historical receipt records automatically using exact `yyyyMMdd-HHmmss` time tokens to prevent structural file overwrites.
+### 💰 Pricing System
+- Size-based pizza pricing (8", 12", 16")
+- Premium toppings priced per size
+- Drinks priced by size
+- Automatic total calculation using polymorphism
+
+### 🧾 Receipt System
+- Automatic receipt generation after checkout
+- Saved to `/receipts` folder
+- Timestamped filenames to prevent overwrites
+
+### 🛡️ Input Validation
+- Prevents invalid menu selections
+- Handles incorrect input safely
+- Ensures valid pizza configuration inputs
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Component | Technology | Version | Purpose |
-| :--- | :--- | :--- | :--- |
-| **Language Runtime** | Java SE | 8 or higher | Core runtime environment and object scheduling |
-| **Input Handlers** | `java.util.Scanner` | Standard | Synchronous data stream parsing from system terminal input |
-| **Collections Framework** | `java.util.ArrayList` | Standard | Dynamic internal memory tracking for order items |
-| **File I/O Engine** | `java.io.FileWriter` | Standard | Stream-based plain text file output operations |
-| **Temporal Engine** | `java.time.LocalDateTime` | Standard | Thread-safe generation of chronological file signatures |
+- Java (JDK 8+)
+- Object-Oriented Programming (OOP)
+- ArrayList collections
+- Scanner for input handling
+- File I/O (`java.io`, `java.nio.file`)
+- LocalDateTime for timestamps
 
 ---
 
