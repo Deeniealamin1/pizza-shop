@@ -143,8 +143,8 @@ Clone the Repository:
 Bash
 git clone <your-repo-url>
 cd pizza-licious
-Create the Local Receipts Directory:
-Note: This folder must exist before checking out so the application can write files successfully.
+Create the Required Local Storage Folders:
+Note: This storage structure must exist prior to processing orders, as file writers will not dynamically create missing directories.
 
 Bash
 mkdir receipts
@@ -160,12 +160,12 @@ java -cp out com.yearup.dealership.Main
 The architecture utilizes the four foundational pillars of Object-Oriented Programming (OOP):
 
 1. Encapsulation
-Data layers inside our objects are protected using the private access modifier (e.g., fields tracking choices inside Pizza.java). Classes control mutations cleanly through explicit helper methods like .addTopping() instead of allowing outside components to modify internal collections directly.
+Data fields inside our objects are protected using the private access modifier (e.g., fields tracking choices inside Pizza.java). Classes control mutations cleanly through explicit helper methods like .addTopping() instead of allowing outside components to modify internal collections directly.
 
 2. Inheritance
 Shared behaviors are defined once inside a parent class to eliminate redundant properties. Pizza, Drink, and Side extend the abstract base class MenuItem to reuse core properties like names. Signature pizzas like MargheritaPizza extend Pizza to instantly inherit all size and crust properties while auto-loading pre-defined toppings inside their constructors.
 
-### 3. Polymorphism
+3. Polymorphism
 The application manages all products universally under their parent data classification. Inside Order.java, items are tracked inside a single list:
 
 Java
@@ -176,8 +176,7 @@ When calculating financial metrics, the application loops through this list and 
 We implement abstraction through our template parent structure:
 
 Java
-public abstract class MenuItem
-A generic menu item cannot exist by itself or have a standalone price, so we mark MenuItem as abstract. It acts as an operational contract by defining public abstract double calculatePrice();, forcing each concrete child class to provide its own accurate pricing logic.
+public abstract class MenuItemA generic menu item cannot exist by itself or have a standalone price, so we mark MenuItem as abstract. It acts as an operational contract by defining public abstract double calculatePrice();, forcing each concrete child class to provide its own accurate pricing logic.
 
 📋 Example Console & Written Receipt Output
 Terminal Checkout Display Look
