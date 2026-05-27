@@ -176,7 +176,8 @@ When calculating financial metrics, the application loops through this list and 
 We implement abstraction through our template parent structure:
 
 Java
-public abstract class MenuItemA generic menu item cannot exist by itself or have a standalone price, so we mark MenuItem as abstract. It acts as an operational contract by defining public abstract double calculatePrice();, forcing each concrete child class to provide its own accurate pricing logic.
+public abstract class MenuItem
+A generic menu item cannot exist by itself or have a standalone price, so we mark MenuItem as abstract. It acts as an operational contract by defining public abstract double calculatePrice();, forcing each concrete child class to provide its own accurate pricing logic.
 
 📋 Example Console & Written Receipt Output
 Terminal Checkout Display Look
