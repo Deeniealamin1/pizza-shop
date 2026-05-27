@@ -1,84 +1,73 @@
-Markdown
 # PIZZA-licious
-
 ### A terminal-based pizza ordering system built in Java with customizable orders, receipt generation, and structured checkout flow.
-
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](#)
-[![Java Version](https://img.shields.io/badge/java-8%2B-blue.svg)](#)
+[![Java Version](https://img.shields.io/badge/java-17%2B-blue.svg)](#)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](#)
-
+[![Capstone](https://img.shields.io/badge/YearUp-Capstone%202-purple.svg)](#)
 ---
-
 ## 🗺️ System Overview
-
 ### Project Description
-PIZZA-licious is a Java-based command-line ordering system for a pizza shop. It allows users to build custom pizzas, select signature pizzas, add drinks and sides, and complete checkout with a generated receipt file. 
-
+PIZZA-licious is a Java-based command-line ordering system for a pizza shop. It allows users to build fully custom pizzas, select pre-configured signature pizzas, add drinks and sides, and complete checkout with an automatically generated receipt file.
 The system replaces manual order tracking with a structured digital workflow that ensures accurate pricing and consistent order handling.
-
 ### Problem Solved & Target User
 This application replaces a manual paper-based ordering process that was prone to calculation mistakes and missing records. It ensures:
-* Accurate order totals
-* Organized order tracking
-* Saved receipts for every transaction
-
+- Accurate order totals through automated polymorphic pricing dispatch
+- Organized order tracking with newest items displayed first
+- A saved timestamped receipt file for every completed transaction
 The target user is a cashier taking customer orders at a pizza shop terminal.
-
 ---
-
 ## ⚡ Features
-
 ### 🍕 Order Management
-* **Step-by-Step Customization:** Build fully custom pizzas with size, crust, topping, and sauce options.
-* **Topping Quantity Multipliers:** Prompts users for specific topping counts and loops input prompts exactly matching customer demands.
-* **Flexible Cart:** Add multiple items (pizzas, drinks, and sides) to the same order.
-* **Order Review:** View a complete order breakdown before committing to checkout.
-
-### 🌟 Signature Pizzas
-* **Pre-configured Presets:** Quick selection for classic options such as a 12" Margherita or an 8" Veggie pizza.
-* **Dynamic Customization:** Extends the base pizza logic so users can still add extra items after choosing a preset.
-
+- **Step-by-Step Customization:** Build fully custom pizzas with size, crust, topping, and sauce options in spec-compliant order
+- **Topping Quantity Multipliers:** Prompts for a specific topping count then loops input prompts to match the exact quantity
+- **Flexible Cart:** Add unlimited pizzas, drinks, and sides to the same order
+- **Newest-First Display:** Order summary always shows the most recently added item at the top
+### 🌟 Signature Pizzas *(Bonus — Inheritance)*
+- **Margherita:** 12" Regular — Mozzarella, Tomatoes, Basil, Marinara, Olive Oil
+- **Veggie:** 8" Regular — Bell Peppers, Spinach, Olives, Onions, Marinara, Mozzarella
+- **Post-Selection Customization:** Add or remove any ingredient after selecting a signature template
 ### 💰 Pricing System
-* **Size-Based Scaling:** Pizza base costs adjust automatically across 8", 12", and 16" options.
-* **Tiered Topping Rates:** Premium ingredients (meats and cheeses) calculate extra fees based on the size tier.
-* **Standard Products:** Drinks use size-based pricing, and sides use flat pricing ($1.50).
-
+- **Size-Based Scaling:** Pizza base costs adjust automatically across 8", 12", and 16" options
+- **Tiered Topping Rates:** Premium ingredients (meats and cheeses) calculate extra fees based on the size tier
+- **Standard Products:** Drinks use size-based pricing ($2.00 / $2.50 / $3.00), sides use flat $1.50
 ### 🛡️ Validation & Checkout Rules
-* **Input Fail-Safes:** Clears input scanner buffers to prevent accidental skips or application crashes on incorrect entries.
-* **0-Pizza Validation Constraints:** Enforces specific business rules. If an order lacks pizzas, it blocks checkout unless a drink or a garlic knots side is present.
-
+- **Crash-Proof Input:** All scanner reads wrapped in `InputMismatchException` loops — letters and symbols re-prompt, never terminate the app
+- **Constrained Set Enforcement:** Pizza sizes, crust types, drink sizes, and yes/no prompts validated against `Set.of(...)` — only allowed values pass through
+- **Empty Cart Guard:** Checkout blocked if no pizzas, drinks, or sides have been added
+- **Non-Blank Name Guards:** Drink and side names cannot be submitted blank
 ### 🧾 Receipt System
-* **Buffered I/O Serialization:** Automatically generates a formatted text receipt using `BufferedWriter` and `FileWriter`.
-* **Unique Timestamp Files:** Saves records to the `receipts/` directory using unique `yyyyMMdd-HHmmss.txt` names to avoid overwriting files.
-
+- **Automatic Folder Creation:** `Files.createDirectories()` creates `receipts/` if it does not exist — no manual setup needed
+- **Full Item Serialization:** Every meat, cheese, topping, and sauce written individually per pizza — nothing omitted
+- **Unique Timestamp Files:** Records saved as `yyyyMMdd-hhmmss.txt` to prevent file overwrites
 ---
-
 ## 🛠️ Tech Stack
-
-* **Language Runtime:** Java SE 8 or higher
-* **Console I/O:** `java.util.Scanner`
-* **Data Collections:** `java.util.ArrayList`
-* **File Output Streams:** `java.io.FileWriter`, `java.io.BufferedWriter`
-* **System Utilities:** `java.time.LocalDateTime`, `java.time.format.DateTimeFormatter`
-* **Development Environment:** IntelliJ IDEA, Git, GitHub
-
+| Component | Technology | Purpose |
+|:---|:---|:---|
+| Language Runtime | Java SE 17+ | Core runtime and object scheduling |
+| Console I/O | `java.util.Scanner` | Synchronous terminal input parsing |
+| Validation | `java.util.Set` | Constrained allowed-value enforcement |
+| Collections | `java.util.ArrayList` | Dynamic per-category topping and order item tracking |
+| File Output | `java.io.BufferedWriter`, `FileWriter` | Buffered plain-text receipt file output |
+| Directory Engine | `java.nio.file.Files` | Auto-creation of `receipts/` folder |
+| Temporal Engine | `java.time.LocalDateTime` | Chronological receipt file naming |
+| Development | IntelliJ IDEA, Git, GitHub | Build and version control |
 ---
-
 ## 📐 Architecture & Design
-
 ### Class Responsibilities
-* **`Main`:** Serves as the program entry bootstrap point.
-* **`HomeScreen`:** Manages interactive menus, scanner input, and loop structures.
-* **`CheckoutScreen`:** Displays the final summary, validates business logic constraints, and confirms purchase requests.
-* **`MenuItem`:** Abstract parent class defining the universal framework and pricing contract for all store inventory assets.
-* **`Order`:** Aggregates all selections in a single polymorphic `ArrayList<MenuItem>` and computes the total price.
-* **`Pizza` / `Drink` / `Side`:** Concrete sub-classes that define specific pricing matrix calculations.
-* **`MargheritaPizza` / `VeggiePizza`:** Signature pizza types utilizing inheritance to assign ingredient properties.
-* **`ReceiptManager`:** Writes order breakdowns out to disk files.
-
+| Class | Role |
+|:---|:---|
+| `Main` | Program entry point — instantiates `HomeScreen` and calls `run()` |
+| `HomeScreen` | All menus, scanner input, validation loops, item creation flows |
+| `CheckoutScreen` | Order review, empty-cart guard, purchase confirmation, delegates to `ReceiptManager` |
+| `MenuItem` | Abstract parent — defines `getName()` and forces all subclasses to implement `calculatePrice()` |
+| `Order` | Polymorphic `ArrayList<MenuItem>` — newest-first display, filter helpers for validation |
+| `Pizza` | Size/crust/topping model — four `ArrayList<String>` fields, full getter set, tiered pricing |
+| `SignaturePizza` | Extends `Pizza` — `margherita()` and `veggie()` static factory methods pre-load ingredients |
+| `Drink` | Size-string to price mapping — small / medium / large |
+| `Side` | Flat $1.50 side item |
+| `ReceiptManager` | Auto-creates `receipts/` — writes full itemized `.txt` receipt to disk |
+---
 ### Data Flow Diagram
-The sequence diagram below displays the program execution flow from initialization up to successful file saving:
-
 ```mermaid
 sequenceDiagram
     autonumber
@@ -88,132 +77,179 @@ sequenceDiagram
     participant O as Order
     participant CS as CheckoutScreen
     participant RM as ReceiptManager
-
     M->>HS: run()
-    loop Order Creation
+    loop Order Creation Loop
         User->>HS: Start New Order
-        HS->>O: Create Order
-        User->>HS: Add Pizza / Drink / Side
-        HS->>O: addItem()
+        HS->>O: new Order()
+        User->>HS: Add Pizza / Drink / Side / Signature Pizza
+        HS->>O: addPizza() / addDrink() / addSide()
     end
-
-    User->>HS: Checkout
+    User->>HS: Select Checkout
     HS->>CS: startCheckout(order)
-
-    alt Order Fails 0-Pizza Validation Rule
-        CS-->>HS: Block checkout & return false
-    else Order is valid
-        CS->>O: displayOrder() + getTotal()
+    alt Cart is Empty
+        CS-->>HS: Block checkout and return false
+    else Cart has Items
+        CS->>O: displayOrder() newest-first + getTotal()
+        O-->>CS: Formatted breakdown and total
         User->>CS: Confirm purchase
         CS->>RM: saveReceipt(order)
-        RM->>RM: Write via BufferedWriter to receipts/
-        CS-->>HS: Finish order & return true
+        RM->>RM: createDirectories receipts/
+        RM->>RM: Write receipts/yyyyMMdd-hhmmss.txt
+        CS-->>HS: return true — order complete
     end
-📂 Project Structure
-Plaintext
+```
+---
+## 📂 Project Structure
+```
 PIZZA-licious/
 │
 ├── src/
 │   └── com/yearup/dealership/
-│       ├── Main.java             # System boots execution engine here
-│       ├── HomeScreen.java       # Coordinates console prompts and quantity loops
-│       ├── CheckoutScreen.java   # Evaluates cart rules and verifies user confirmation
-│       ├── MenuItem.java         # Abstract base component defining shared structure
-│       ├── Order.java            # Unified model container tracking polymorph collections
-│       ├── Pizza.java            # Handles size-relative calculations
-│       ├── MargheritaPizza.java  # Extends Pizza with preconfigured ingredients
-│       ├── VeggiePizza.java      # Extends Pizza with preconfigured vegetables
-│       ├── Drink.java            # Standard item tracking variable drink sizes
-│       ├── Side.java             # Product tracking side items with uniform pricing models
-│       └── ReceiptManager.java   # Output utility writing log details to system disk
+│       ├── Main.java              # Entry point — boots HomeScreen
+│       ├── HomeScreen.java        # All menus, input collection, validation helpers
+│       ├── CheckoutScreen.java    # Order review, confirmation gate
+│       ├── MenuItem.java          # Abstract base — getName(), abstract calculatePrice()
+│       ├── Order.java             # ArrayList<MenuItem> — newest-first display, filter helpers
+│       ├── Pizza.java             # Tiered pricing, four topping lists, full getter set
+│       ├── SignaturePizza.java    # Extends Pizza — margherita() and veggie() factory methods
+│       ├── Drink.java             # Size-string to flat price mapping
+│       ├── Side.java              # Flat $1.50 side item
+│       └── ReceiptManager.java    # Auto-creates receipts/ — writes itemized .txt file
 │
-├── receipts/                     # Destination folder for text receipt log generation
-└── README.md                     # Application architectural documentation
-🚀 How to Run
-Follow these command terminal instructions to compile and run the point-of-sale application on your machine:
-
-Prerequisites
-Make sure a Java Development Kit (JDK 8 or higher) is installed. Check using this command:
-
-Bash
+├── receipts/                      # Auto-created on first completed checkout
+└── README.md
+```
+---
+## 🚀 How to Run
+### Prerequisites
+Verify Java is installed:
+```bash
 java -version
-Steps to Execute
-Clone the Repository:
-
-Bash
+```
+Requires JDK 17 or higher.
+### Steps to Execute
+**1. Clone the repository**
+```bash
 git clone <your-repo-url>
 cd pizza-licious
-Create the Required Local Storage Folders:
-Note: This storage structure must exist prior to processing orders, as file writers will not dynamically create missing directories.
-
-Bash
-mkdir receipts
-Compile the Class Source Files:
-
-Bash
+```
+**2. Compile all source files**
+```bash
 javac src/com/yearup/dealership/*.java -d out
-Launch the Core Application Engine:
-
-Bash
+```
+**3. Launch the application**
+```bash
 java -cp out com.yearup.dealership.Main
-🧠 Object-Oriented Programming Concepts
-The architecture utilizes the four foundational pillars of Object-Oriented Programming (OOP):
-
-1. Encapsulation
-Data fields inside our objects are protected using the private access modifier (e.g., fields tracking choices inside Pizza.java). Classes control mutations cleanly through explicit helper methods like .addTopping() instead of allowing outside components to modify internal collections directly.
-
-2. Inheritance
-Shared behaviors are defined once inside a parent class to eliminate redundant properties. Pizza, Drink, and Side extend the abstract base class MenuItem to reuse core properties like names. Signature pizzas like MargheritaPizza extend Pizza to instantly inherit all size and crust properties while auto-loading pre-defined toppings inside their constructors.
-
-3. Polymorphism
-The application manages all products universally under their parent data classification. Inside Order.java, items are tracked inside a single list:
-
-Java
+```
+> The `receipts/` directory is created automatically on the first completed checkout. No manual folder creation needed.
+---
+## 🧠 Object-Oriented Programming Concepts
+### 1. Encapsulation
+All data fields inside objects are `private` or `protected`. Outside code never modifies internal collections directly — it calls explicit helper methods instead:
+```java
+// Pizza.java
+private final ArrayList<String> meats = new ArrayList<>();
+public void addMeat(String meat)
+{
+    if (meat != null && !meat.isBlank()) meats.add(meat.trim());
+}
+```
+### 2. Inheritance
+Shared behaviors are defined once in the parent to eliminate redundancy. `Pizza`, `Drink`, and `Side` all extend `MenuItem`. `SignaturePizza` extends `Pizza` to inherit all pizza logic while adding pre-loaded ingredient templates:
+```java
+public class SignaturePizza extends Pizza
+{
+    public static SignaturePizza margherita()
+    {
+        SignaturePizza pizza = new SignaturePizza("Margherita Pizza", "12", "regular");
+        pizza.addCheese("Mozzarella");
+        pizza.addTopping("Tomatoes");
+        pizza.addSauce("Marinara");
+        return pizza;
+    }
+}
+```
+### 3. Polymorphism
+The `Order` class stores every item under one unified type:
+```java
 private ArrayList<MenuItem> items;
-When calculating financial metrics, the application loops through this list and calls .calculatePrice(). Java dynamically determines at runtime whether to call the size-scaled method inside Pizza, the size-lookup rules inside Drink, or the flat fee calculation inside Side.
-
-4. Abstraction
-We implement abstraction through our template parent structure:
-
-Java
+```
+When calculating the total, one loop calls `calculatePrice()` on every item. Java dispatches to the correct implementation at runtime with no `instanceof` checks needed:
+```java
+public double getTotal()
+{
+    double total = 0;
+    for (MenuItem item : items)
+    {
+        total += item.calculatePrice(); // Pizza, Drink, or Side — resolved at runtime
+    }
+    return total;
+}
+```
+### 4. Abstraction
+`MenuItem` is abstract. A generic menu item cannot exist standalone or carry a price of its own, so the class forces every subclass to define its own pricing logic:
+```java
 public abstract class MenuItem
-A generic menu item cannot exist by itself or have a standalone price, so we mark MenuItem as abstract. It acts as an operational contract by defining public abstract double calculatePrice();, forcing each concrete child class to provide its own accurate pricing logic.
-
-📋 Example Console & Written Receipt Output
-Terminal Checkout Display Look
-Plaintext
+{
+    public abstract double calculatePrice();
+}
+```
+---
+## 📋 Example Console & Receipt Output
+**Terminal checkout display**
+```
 === CHECKOUT SCREEN ===
-
 === ORDER DETAILS ===
-
-Pizza Details:
+Custom Pizza Details:
 - Size: 16"
 - Crust: thick
 - Stuffed Crust: Yes
-- Cheeses: [cheddarrrr]
-- Toppings: [jalaapeno, cooki, bpnn]
+- Cheeses: [mozzarella]
+- Toppings: [mushrooms, olives]
 - Sauces: [marinara]
-  Item Price: $20.75
+  Item Price: $21.00
 large cola - $3.00
-mac n cheese - $1.50
-
-Total: $25.25
-
+Garlic Knots - $1.50
+Total: $25.50
 1) Confirm and Place Order
 0) Cancel and Go Back to Menu
 Choose an option: 1
-Receipt successfully saved to: receipts/20260527-124515.txt
+Receipt saved to: receipts/20260527-024512.txt
 Thank you! Order processed successfully.
-Resulting Output File (receipts/20260527-124515.txt)
-Plaintext
-PIZZA-licious Receipt
-=====================
-
-Pizza
------------------
-Price: $20.75
-
-- large cola - $3.00
-- mac n cheese - $1.50
-=====================
-Total: $25.25
+```
+**Resulting receipt file (`receipts/20260527-024512.txt`)**
+```
+=============================
+     PIZZA-licious Receipt
+=============================
+Date: May 27, 2026  02:45:12 AM
+--- ITEMS ---
+  Custom Pizza (16" thick crust)
+    + Stuffed Crust
+    + Cheese:  mozzarella
+    + Topping: mushrooms
+    + Topping: olives
+    + Sauce:   marinara
+    Price: $21.00
+  large cola - $3.00
+  Garlic Knots - $1.50
+=============================
+  TOTAL:  $25.50
+=============================
+```
+---
+## 💰 Pricing Reference
+| Size | Base Price | Meat / ea | Cheese / ea | Stuffed Crust |
+|:---|:---|:---|:---|:---|
+| 8" Personal | $8.50 | +$1.00 | +$0.75 | +$2.00 |
+| 12" Medium | $12.00 | +$2.00 | +$1.50 | +$2.00 |
+| 16" Large | $16.50 | +$3.00 | +$2.25 | +$2.00 |
+| Item | Small | Medium | Large |
+|:---|:---|:---|:---|
+| Drinks | $2.00 | $2.50 | $3.00 |
+| Sides (any) | — | $1.50 flat | — |
+Regular toppings (onions, mushrooms, bell peppers, olives, tomatoes, spinach, basil, pineapple, anchovies) and all sauces are included free on any size pizza.
+---
+## 📄 License
+This project is licensed under the [MIT License](LICENSE).
+---
