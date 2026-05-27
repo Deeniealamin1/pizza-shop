@@ -25,47 +25,43 @@ The target user is a cashier taking customer orders at a pizza shop terminal.
 
 ⚡ Features
 🍕 Order Management
-Step-by-step custom pizza creation (size, crust, toppings, sauce)
-Add multiple items (pizzas, drinks, sides) to one order
-Full order review before checkout
+Step-by-Step Customization: Build fully custom pizzas with size, crust, topping, and sauce options.
+Topping Quantity Multipliers: Prompts users for specific topping counts and loops input prompts exactly matching customer demands.
+Flexible Cart: Add multiple items (pizzas, drinks, and sides) to the same order.
+Order Review: View a complete order breakdown before committing to checkout.
 🌟 Signature Pizzas
-Pre-configured options like Margherita and Veggie
-Built using inheritance for reusable base logic
-Still allows customization after selection
+Pre-configured Presets: Quick selection for classic options such as a 12" Margherita or an 8" Veggie pizza.
+Dynamic Customization: Extends the base pizza logic so users can still add extra items after choosing a preset.
 💰 Pricing System
-Size-based pizza pricing (8", 12", 16")
-Extra charges for premium toppings
-Drinks use tiered pricing
-Sides use flat pricing ($1.50)
-🛡️ Validation & Rules
-Input validation prevents crashes from invalid entries
-Checkout rules ensure valid order state
-Prevents checkout when order does not meet requirements
+Size-Based Scaling: Pizza base costs adjust automatically across 8", 12", and 16" options.
+Tiered Topping Rates: Premium ingredients (meats and cheeses) calculate extra fees based on the size tier.
+Standard Products: Drinks use size-based pricing, and sides use flat pricing ($1.50).
+🛡️ Validation & Checkout Rules
+Input Fail-Safes: Clears input scanner buffers to prevent accidental skips or application crashes on incorrect entries.
+0-Pizza Validation Constraints: Enforces specific business rules. If an order lacks pizzas, it blocks checkout unless a drink or a garlic knots side is present.
 🧾 Receipt System
-Uses BufferedWriter and FileWriter for file output
-Generates receipt for every completed order
-Timestamped filenames prevent overwriting
+Buffered I/O Serialization: Automatically generates a formatted text receipt using BufferedWriter and FileWriter.
+Unique Timestamp Files: Saves records to the receipts/ directory using unique yyyyMMdd-HHmmss.txt names to avoid overwriting files.
 🛠️ Tech Stack
-Java SE 8+
-java.util.Scanner
-java.util.ArrayList
-java.io.FileWriter
-java.io.BufferedWriter
-java.time.LocalDateTime
-IntelliJ IDEA, Git, GitHub
+Language Runtime: Java SE 8 or higher
+Console I/O: java.util.Scanner
+Data Collections: java.util.ArrayList
+File Output Streams: java.io.FileWriter, java.io.BufferedWriter
+System Utilities: java.time.LocalDateTime, java.time.format.DateTimeFormatter
+Development Environment: IntelliJ IDEA, Git, GitHub
 📐 Architecture & Design
 Class Responsibilities
-Main: Entry point of the application
-HomeScreen: Handles user input and menus
-CheckoutScreen: Validates and finalizes orders
-MenuItem: Abstract base class for all products
-Order: Stores items and calculates total
-Pizza / Drink / Side: Concrete product logic
-MargheritaPizza / VeggiePizza: Pre-built signature pizzas
-ReceiptManager: Writes order data to file
+Main: Serves as the program entry bootstrap point.
+HomeScreen: Manages interactive menus, scanner input, and loop structures.
+CheckoutScreen: Displays the final summary, validates business logic constraints, and confirms purchase requests.
+MenuItem: Abstract parent class defining the universal framework and pricing contract for all store inventory assets.
+Order: Aggregates all selections in a single polymorphic ArrayList<MenuItem> and computes the total price.
+Pizza / Drink / Side: Concrete sub-classes that define specific pricing matrix calculations.
+MargheritaPizza / VeggiePizza: Signature pizza types utilizing inheritance to assign ingredient properties.
+ReceiptManager: Writes order breakdowns out to disk files.
 📐 Architecture & Data Flow
 
-The diagram below shows how the system processes an order.
+The sequence diagram below displays the program execution flow from initialization up to successful file saving:
 
 sequenceDiagram
     autonumber
@@ -118,21 +114,12 @@ PIZZA-licious/
 └── README.md
 🚀 How to Run
 Prerequisites
-Java JDK 8+
+
+Make sure a Java Development Kit (JDK 8 or higher) is installed.
+
 Steps
 git clone <your-repo-url>
 cd pizza-licious
 mkdir receipts
 javac src/com/yearup/dealership/*.java -d out
 java -cp out com.yearup.dealership.Main
-🧠 OOP Concepts Used
-Encapsulation: Private fields protect internal state
-Inheritance: Signature pizzas reuse base Pizza class
-Polymorphism: All items stored as MenuItem
-Abstraction: MenuItem defines shared contract for pricing
-
-If you want next step, I can:
-
-make it look like a top-tier FAANG-style README
-or simplify it further to look like a real internship GitHub submission
-or add a clean UML diagram instead of Mermaid (safer for GitHub rendering)
