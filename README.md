@@ -12,12 +12,12 @@
 ### Project Description
 PIZZA-licious is a Java-based command-line ordering system for a pizza shop. It allows users to build fully custom order items, select pre-configured signature pizzas, add drinks and sides, and complete checkout with an automatically generated receipt file.
 
-The system replaces manual order tracking with a structured digital workflow that ensures accurate pricing and consistent order handling.
+The system replaces manual order tracking with an organized digital ordering system that helps keep pricing accurate and orders consistent.
 
 ### Problem Solved & Target User
 This application replaces a manual paper-based ordering process that was prone to calculation mistakes and missing records. It ensures:
 
-- Accurate order totals through automated polymorphic pricing dispatch
+- Accurate order totals through automatic price calculation
 - Organized order tracking with newest items displayed first
 - A saved timestamped receipt file for every completed transaction
 
@@ -36,23 +36,23 @@ The target user is a cashier taking customer orders at a pizza shop terminal.
 ### 🌟 Signature Pizzas *(Bonus — Inheritance)*
 - **Signature Margherita:** 12" Regular — Mozzarella, Tomatoes, Basil, Toasted
 - **Signature Veggie:** 8" Regular — Bell Peppers, Spinach, Olives, Mozzarella
-- **Post-Selection Customization:** Add or remove meats, cheeses, and regular toppings after selecting a signature template
+- **Editing After Selection:** Add or remove meats, cheeses, and regular toppings after selecting a signature template
 
 ### 💰 Pricing System
 - **Size-Based Scaling:** Pizza base costs adjust automatically across 8", 12", and 16" options
-- **Tiered Premium Rates:** Premium meats and cheeses calculate extra fees based on the size tier
+- **Premium Ingredient Pricing:** Premium meats and cheeses calculate extra fees based on the size tier
 - **Special Options:** Toasted, stuffed crust, and deep fried add a flat $2.00 surcharge
 - **Standard Products:** Drinks use size-based pricing ($2.00 / $2.50 / $3.00), sides use flat $1.50 pricing
 
 ### 🛡️ Validation & Checkout Rules
 - **Crash-Proof Input:** All scanner reads wrapped in `InputMismatchException` loops — letters and symbols re-prompt, never terminate the app
-- **Validated Size Enforcement:** Pizza and drink sizes only accept approved values
+- **Size Validation:** Pizza and drink sizes only accept approved values
 - **Empty Cart Guard:** Checkout blocked if no pizzas, drinks, or sides have been added
 - **Non-Blank Name Guards:** Drink names, side names, and item selections cannot be submitted blank
 
 ### 🧾 Receipt System
 - **Automatic Receipt Generation:** Every completed checkout creates a timestamped `.txt` receipt
-- **Full Item Serialization:** Every meat, cheese, topping, and special option written individually per pizza
+- **Saving Every Item Detail:** Every meat, cheese, topping, and special option written individually per pizza
 - **Unique Timestamp Files:** Records saved as `yyyyMMdd-hhmmss.txt` to prevent file overwrites
 
 ---
@@ -61,13 +61,13 @@ The target user is a cashier taking customer orders at a pizza shop terminal.
 
 | Component | Technology | Purpose |
 |:---|:---|:---|
-| Language Runtime | Java SE 17+ | Core runtime and object scheduling |
-| Console I/O | `java.util.Scanner` | Synchronous terminal input parsing |
-| Validation | `InputMismatchException` | Runtime-safe numeric validation |
-| Collections | `java.util.ArrayList` | Dynamic per-category topping and order item tracking |
-| File Output | `java.io.BufferedWriter`, `FileWriter` | Buffered plain-text receipt file output |
-| Temporal Engine | `java.time.LocalDateTime` | Chronological receipt file naming |
-| Development | IntelliJ IDEA, Git, GitHub | Build and version control |
+| Language Runtime | Java SE 17+ | Core Java runtime |
+| Console I/O | `java.util.Scanner` | Console input handling |
+| Validation | `InputMismatchException` | Prevents invalid numeric input |
+| Collections | `java.util.ArrayList` | Dynamic topping and order item storage |
+| File Output | `java.io.BufferedWriter`, `FileWriter` | Plain-text receipt file output |
+| Temporal Engine | `java.time.LocalDateTime` | Timestamp-based receipt naming |
+| Development | IntelliJ IDEA, Git, GitHub | Development and version control |
 
 ---
 
@@ -77,16 +77,16 @@ The target user is a cashier taking customer orders at a pizza shop terminal.
 
 | Class | Role |
 |:---|:---|
-| `Main` | Program entry point — instantiates `HomeScreen` and calls `run()` |
-| `HomeScreen` | All menus, scanner input, validation loops, item creation flows |
-| `CheckoutScreen` | Order review, empty-cart guard, purchase confirmation, delegates to `ReceiptManager` |
-| `MenuItem` | Abstract parent — defines `getName()` and forces all subclasses to implement `calculatePrice()` |
-| `Order` | Polymorphic `ArrayList<MenuItem>` — newest-first display, filter helpers |
-| `Pizza` | Size/type/special-option model — premium meats, cheeses, regular toppings, tiered pricing |
-| `SignaturePizza` | Extends `Pizza` — `margherita()` and `veggie()` static factory methods pre-load ingredients |
+| `Main` | Program entry point — starts `HomeScreen` and calls `run()` |
+| `HomeScreen` | Menus, scanner input, validation loops, and item creation |
+| `CheckoutScreen` | Order review, empty-cart guard, purchase confirmation, sends receipt saving to `ReceiptManager` |
+| `MenuItem` | Abstract parent class — defines `getName()` and forces subclasses to implement `calculatePrice()` |
+| `Order` | Shared `ArrayList<MenuItem>` — newest-first display and helper methods |
+| `Pizza` | Size/type/special-option model — premium meats, cheeses, regular toppings, and pricing |
+| `SignaturePizza` | Extends `Pizza` — `margherita()` and `veggie()` factory methods pre-load ingredients |
 | `Drink` | Size-string to price mapping — small / medium / large |
 | `Side` | Flat $1.50 side item |
-| `ReceiptManager` | Writes fully itemized `.txt` receipt to disk |
+| `ReceiptManager` | Writes fully itemized `.txt` receipt files |
 
 ---
 
@@ -203,7 +203,7 @@ java -cp out com.pluralsight.ui.Main
 
 ### 1. Encapsulation
 
-All data fields inside objects are `private` or `protected`. Outside code never modifies internal collections directly — it calls explicit helper methods instead:
+All data fields inside objects are `private` or `protected`. Outside code never modifies internal collections directly — it uses helper methods instead:
 
 ```java
 // Pizza.java
@@ -217,7 +217,7 @@ public void addMeat(String meat)
 
 ### 2. Inheritance
 
-Shared behaviors are defined once in the parent to eliminate redundancy. `Pizza`, `Drink`, and `Side` all extend `MenuItem`. `SignaturePizza` extends `Pizza` to inherit all pizza logic while adding pre-loaded ingredient templates:
+Shared behavior is defined once in the parent class to avoid repeating code. `Pizza`, `Drink`, and `Side` all extend `MenuItem`. `SignaturePizza` extends `Pizza` so it can reuse pizza behavior while adding pre-loaded ingredient templates:
 
 ```java
 public class SignaturePizza extends Pizza
@@ -236,13 +236,13 @@ public class SignaturePizza extends Pizza
 
 ### 3. Polymorphism
 
-The `Order` class stores every item under one unified type:
+The `Order` class stores every item under one shared type:
 
 ```java
 private ArrayList<MenuItem> items;
 ```
 
-When calculating the total, one loop calls `calculatePrice()` on every item. Java dispatches to the correct implementation at runtime with no `instanceof` checks needed:
+When calculating the total, one loop calls `calculatePrice()` on every item. Java automatically calls the correct method for `Pizza`, `Drink`, or `Side` at runtime:
 
 ```java
 public double getTotal()
@@ -260,7 +260,7 @@ public double getTotal()
 
 ### 4. Abstraction
 
-`MenuItem` is abstract. A generic menu item cannot exist standalone or carry a price of its own, so the class forces every subclass to define its own pricing logic:
+`MenuItem` is abstract. A generic menu item cannot exist on its own or have a default price, so every subclass must define its own pricing logic:
 
 ```java
 public abstract class MenuItem
