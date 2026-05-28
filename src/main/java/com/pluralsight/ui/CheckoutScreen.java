@@ -15,7 +15,6 @@ public class CheckoutScreen {
     public boolean startCheckout(Order order) {
         System.out.println("\n=== CHECKOUT SCREEN ===");
 
-        // Enforces checklist rule: Minimum 1 item or drink/side required
         if (order.getItems().isEmpty()) {
             System.out.println("Your cart is empty! Add items before checking out.");
             return false;

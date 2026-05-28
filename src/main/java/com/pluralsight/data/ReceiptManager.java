@@ -12,11 +12,10 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class ReceiptManager
-{
-    private static final String RECEIPTS_DIR = "receipts";
+public class ReceiptManager{
 
     public static void saveReceipt(Order order) {
+
         if (order == null) {
             System.out.println("Cannot save receipt: order is null.");
             return;
@@ -83,8 +82,11 @@ public class ReceiptManager
             writer.newLine();
 
             System.out.println("Receipt saved to: " + fileName);
+
         } catch (IOException e) {
+
             System.out.println("Error saving receipt: " + e.getMessage());
+
         } finally {
             try {
                 if (writer != null) {
@@ -92,12 +94,12 @@ public class ReceiptManager
                 }
             } catch (IOException e) {
                 System.out.println("Error closing file writer: " + e.getMessage());
+
             }
         }
     }
 
-    private static void writePizza(BufferedWriter writer, Pizza pizza) throws IOException
-    {
+    private static void writePizza(BufferedWriter writer, Pizza pizza) throws IOException {
         writer.write("  " + pizza.getName()
                 + " (" + pizza.getSize() + "\" [" + pizza.getCrustType() + "])");
         writer.newLine();
@@ -105,9 +107,17 @@ public class ReceiptManager
         writer.write("    Special Option: " + pizza.getSpecialOption());
         writer.newLine();
 
-        for (String meat    : pizza.getMeats())    { writer.write("    + Meat:    " + meat);    writer.newLine(); }
-        for (String cheese  : pizza.getCheeses())  { writer.write("    + Cheese:  " + cheese);  writer.newLine(); }
-        for (String topping : pizza.getRegularToppings()) { writer.write("    + Regular Topping: " + topping); writer.newLine(); }
+        for (String meat : pizza.getMeats()) {
+            writer.write("    + Meat:    " + meat);
+            writer.newLine();
+        }
+        for (String cheese : pizza.getCheeses()) {
+            writer.write("    + Cheese:  " + cheese);
+            writer.newLine();
+        }
+        for (String topping : pizza.getRegularToppings()) {
+            writer.write("    + Regular Topping: " + topping);
+            writer.newLine(); }
 
         writer.write(String.format("    Price: $%.2f", pizza.calculatePrice()));
         writer.newLine();

@@ -9,9 +9,17 @@ public class Order {
         items = new ArrayList<>();
     }
 
-    public void addPizza(Pizza pizza) { items.add(pizza); }
-    public void addDrink(Drink drink) { items.add(drink); }
-    public void addSide(Side side) { items.add(side); }
+    public void addPizza(Pizza pizza) {
+        items.add(pizza);
+    }
+
+    public void addDrink(Drink drink) {
+        items.add(drink);
+    }
+
+    public void addSide(Side side) {
+        items.add(side);
+    }
 
     public double getTotal() {
         double total = 0;
@@ -36,7 +44,9 @@ public class Order {
         System.out.printf("\nTotal: $%.2f\n", getTotal());
     }
 
-    public ArrayList<MenuItem> getItems() { return items; }
+    public ArrayList<MenuItem> getItems() {
+        return items;
+    }
 
     public ArrayList<Pizza> getPizzas() {
         ArrayList<Pizza> pizzas = new ArrayList<>();

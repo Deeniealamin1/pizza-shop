@@ -46,18 +46,38 @@ public class Pizza extends MenuItem {
         if (!topping.isEmpty()) regularToppings.add(topping);
     }
 
-    public void removeMeat(String meat) { meats.remove(meat); }
-    public void removeCheese(String cheese) { cheeses.remove(cheese); }
-    public void removeRegularTopping(String topping) { regularToppings.remove(topping); }
+    public void removeMeat(String meat) {
+        meats.remove(meat);
+    }
 
-    public String getSize() { return size; }
-    public String getCrustType() { return crustType; }
-    public String getSpecialOption() { return specialOption; }
+    public void removeCheese(String cheese) {
+        cheeses.remove(cheese);
+    }
+
+    public void removeRegularTopping(String topping) {
+        regularToppings.remove(topping);
+    }
+
+    public String getSize() {
+        return size;
+    }
+    public String getCrustType() {
+        return crustType;
+    }
+    public String getSpecialOption() {
+        return specialOption;
+    }
 
     // Fixed: Added getters so ReceiptManager compiles perfectly without errors
-    public ArrayList<String> getMeats() { return meats; }
-    public ArrayList<String> getCheeses() { return cheeses; }
-    public ArrayList<String> getRegularToppings() { return regularToppings; }
+    public ArrayList<String> getMeats() {
+        return meats;
+    }
+    public ArrayList<String> getCheeses() {
+        return cheeses;
+    }
+    public ArrayList<String> getRegularToppings() {
+        return regularToppings;
+    }
 
     @Override
     public double calculatePrice() {
