@@ -87,7 +87,8 @@ public class ReceiptManager{
 
             System.out.println("Error saving receipt: " + e.getMessage());
 
-        } finally {
+        }
+        finally {
             try {
                 if (writer != null) {
                     writer.close();
@@ -99,7 +100,7 @@ public class ReceiptManager{
         }
     }
 
-    private static void writePizza(BufferedWriter writer, Pizza pizza) throws IOException {
+    static void writePizza(BufferedWriter writer, Pizza pizza) throws IOException {
         writer.write("  " + pizza.getName()
                 + " (" + pizza.getSize() + "\" [" + pizza.getCrustType() + "])");
         writer.newLine();
