@@ -1,4 +1,4 @@
-# PIZZA-licious
+# Deenie's Pizzeria
 ### A terminal-based pizza ordering system built in Java with customizable orders, receipt generation, and structured checkout flow.
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)](#)
 [![Java Version](https://img.shields.io/badge/java-17%2B-blue.svg)](#)
