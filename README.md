@@ -10,7 +10,7 @@
 ## 🗺️ System Overview
 
 ### Project Description
-PIZZA-licious is a Java-based command-line ordering system for a pizza shop. It allows users to build fully custom order items, select pre-configured signature pizzas, add drinks and sides, and complete checkout with an automatically generated receipt file.
+Deenie's Pizzeria is a Java-based command-line ordering system for a pizza shop. It allows users to build fully custom order items, select pre-configured signature pizzas, add drinks and sides, and complete checkout with an automatically generated receipt file.
 
 The system replaces manual order tracking with an organized digital ordering system that helps keep pricing accurate and orders consistent.
 
