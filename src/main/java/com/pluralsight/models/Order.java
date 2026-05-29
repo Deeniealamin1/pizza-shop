@@ -6,18 +6,22 @@ public class Order {
     private ArrayList<MenuItem> items;
 
     public Order() {
+
         items = new ArrayList<>();
     }
 
     public void addPizza(Pizza pizza) {
+
         items.add(pizza);
     }
 
     public void addDrink(Drink drink) {
+
         items.add(drink);
     }
 
     public void addSide(Side side) {
+
         items.add(side);
     }
 

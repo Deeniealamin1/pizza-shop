@@ -59,9 +59,11 @@ public class Pizza extends MenuItem {
     }
 
     public String getSize() {
+
         return size;
     }
     public String getCrustType() {
+
         return crustType;
     }
     public String getSpecialOption() {
